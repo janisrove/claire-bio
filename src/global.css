@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@plugin "@iconify/tailwind4" {
+  prefixes: mdi-light, vscode-icons;
+}
+
+h1,
+h2 {
+  font-family: Georgia, serif;
+  /*letter-spacing: 0.03em;
+ color: #f6e9e6;*/
+}
+
+p {
+  font-family: "Palatino Linotype", "Book Antiqua", serif;
+  /* color: #d6c3bc;
+  line-height: 1.7;*/
+}
+
+@theme {
+  --color-claire-bg: #0b0b0b;
+  --color-claire-rose: #f6e9e6;
+  --color-claire-bordeaux: #5e1e32;
+  --color-claire-champagne: #b48a78;
+  --color-claire-pearl: #d6c3bc;
+}
+
+@layer utilities {
+  .container {
+    @apply mx-auto max-w-[1400px] px-0 sm:px-6 md:px-12;
+  }
+}
+
+.scroll-fade {
+  /*opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 1s ease-out,
+    transform 1s ease-out;*/
+}
+.scroll-fade.visible {
+  /* opacity: 1;
+  transform: none;*/
+}
+
+@keyframes panY {
+  0% {
+    object-position: center top;
+  }
+  100% {
+    object-position: center bottom;
+  }
+}
+.parallax-pan {
+  animation-timeline: view();
+  animation-name: panY;
+  animation-range: entry 0% exit 100%;
+}
