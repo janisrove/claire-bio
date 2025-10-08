@@ -31,14 +31,19 @@ jobs:
           echo "[bunny-site]
           type = ftp
           host = storage.bunnycdn.com
-          user = ${{ secrets.BUNNY_SITE_USERNAME }}
-          pass = PASS_PLAIN:${{ secrets.BUNNY_SITE_PASSWORD }}
+          user = ${BUNNY_SITE_USERNAME}
+          pass = PASS_PLAIN:${BUNNY_SITE_PASSWORD}
 
           [bunny-media]
           type = ftp
           host = storage.bunnycdn.com
-          user = ${{ secrets.BUNNY_MEDIA_USERNAME }}
-          pass = PASS_PLAIN:${{ secrets.BUNNY_MEDIA_PASSWORD }}" > ~/.config/rclone/rclone.conf
+          user = ${BUNNY_MEDIA_USERNAME}
+          pass = PASS_PLAIN:${BUNNY_MEDIA_PASSWORD}" > ~/.config/rclone/rclone.conf
+        env:
+          BUNNY_SITE_USERNAME: ${{ secrets.BUNNY_SITE_USERNAME }}
+          BUNNY_SITE_PASSWORD: ${{ secrets.BUNNY_SITE_PASSWORD }}
+          BUNNY_MEDIA_USERNAME: ${{ secrets.BUNNY_MEDIA_USERNAME }}
+          BUNNY_MEDIA_PASSWORD: ${{ secrets.BUNNY_MEDIA_PASSWORD }}
 
       # 🚀 Deploy site (exclude images/videos)
       - name: Deploy site files to HDD storage
