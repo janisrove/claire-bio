@@ -44,7 +44,7 @@ jobs:
       - name: Deploy site files to HDD storage
         run: |
           echo "🚀 Uploading site (excluding media)..."
-          rclone sync ./dist bunny-site:/ \
+          rclone sync ./dist bunny-site:site \
             --progress \
             --exclude "/images/**" \
             --exclude "/videos/**" \
@@ -55,10 +55,10 @@ jobs:
         run: |
           echo "🎞 Uploading media..."
           if [ -d "./dist/videos" ]; then
-            rclone sync ./dist/videos bunny-media:/videos --progress --exclude ".*"
+            rclone sync ./dist/videos bunny-media:media/videos --progress --exclude ".*"
           fi
           if [ -d "./dist/images" ]; then
-            rclone sync ./dist/images bunny-media:/images --progress --exclude ".*"
+            rclone sync ./dist/images bunny-media:media/images --progress --exclude ".*"
           fi
 
       # 🧹 Purge CDN cache
