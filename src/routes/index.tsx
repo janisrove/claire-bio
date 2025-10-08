@@ -1,11 +1,4 @@
-import {
-  $,
-  component$,
-  Slot,
-  useSignal,
-  useVisibleTask$,
-} from "@builder.io/qwik";
-import { useScrollFade } from "~/hooks/useScrollFade";
+import { component$, Slot, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import { Link, type DocumentHead } from "@builder.io/qwik-city";
 import CoatImage from "~/media/claire-red-coat-layers.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
 import StockingImage from "~/media/claire-stockings-elegance.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
@@ -42,7 +35,6 @@ const CtaBtn = component$(() => {
 
 export default component$(() => {
   const videoRef = useSignal<HTMLVideoElement>();
-  useScrollFade();
 
   useVisibleTask$(() => {
     if (videoRef.value) {
