@@ -1,4 +1,4 @@
-name: Deploy to Bunny Storage
+name: Deploy to Bunny CDN
 on:
   push:
     branches: [main]
@@ -28,18 +28,43 @@ jobs:
       - name: Configure rclone for Bunny
         run: |
           mkdir -p ~/.config/rclone
-          echo "[bunny]
+          echo "[bunny-site]
           type = ftp
           host = storage.bunnycdn.com
-          user = ${{ secrets.BUNNY_STORAGE_USERNAME }}
-          pass = ${{ secrets.BUNNY_STORAGE_PASSWORD }}" > ~/.config/rclone/rclone.conf
+          user = ${{ secrets.BUNNY_SITE_USERNAME }}
+          pass = ${{ secrets.BUNNY_SITE_PASSWORD }}
 
-      - name: Upload dist folder to Bunny Storage
-        run: |
-          rclone sync ./dist bunny:${{ secrets.BUNNY_STORAGE_ZONE_NAME }} --progress --exclude ".*"
+          [bunny-media]
+          type = ftp
+          host = storage.bunnycdn.com
+          user = ${{ secrets.BUNNY_MEDIA_USERNAME }}
+          pass = ${{ secrets.BUNNY_MEDIA_PASSWORD }}" > ~/.config/rclone/rclone.conf
 
-      - name: Purge Bunny CDN cache (optional)
+      # 🚀 Deploy site (exclude images/videos)
+      - name: Deploy site files to HDD storage
         run: |
+          echo "🚀 Uploading site (excluding media)..."
+          rclone sync ./dist bunny-site:${{ secrets.BUNNY_SITE_ZONE_NAME }} \
+            --progress \
+            --exclude "/images/**" \
+            --exclude "/videos/**" \
+            --exclude ".*"
+
+      # 🎞 Deploy images/videos separately
+      - name: Deploy media files to SSD storage
+        run: |
+          echo "🎞 Uploading media..."
+          if [ -d "./dist/videos" ]; then
+            rclone sync ./dist/videos bunny-media:${{ secrets.BUNNY_MEDIA_ZONE_NAME }}/videos --progress --exclude ".*"
+          fi
+          if [ -d "./dist/images" ]; then
+            rclone sync ./dist/images bunny-media:${{ secrets.BUNNY_MEDIA_ZONE_NAME }}/images --progress --exclude ".*"
+          fi
+
+      # 🧹 Purge CDN cache
+      - name: Purge Bunny CDN cache
+        run: |
+          echo "🧹 Purging CDN cache..."
           curl -X POST "https://api.bunny.net/pullzone/${{ secrets.BUNNY_PULLZONE_ID }}/purgeCache" \
-          -H "AccessKey: ${{ secrets.BUNNY_API_KEY }}" \
-          -H "Accept: application/json"
+            -H "AccessKey: ${{ secrets.BUNNY_API_KEY }}" \
+            -H "Accept: application/json"
