@@ -44,7 +44,7 @@ jobs:
       - name: Deploy site files to HDD storage
         run: |
           echo "🚀 Uploading site (excluding media)..."
-          rclone sync ./dist bunny-site:site \
+          rclone sync ./dist bunny-site: \
             --progress \
             --exclude "/images/**" \
             --exclude "/videos/**" \
