@@ -1,4 +1,4 @@
-name: Deploy to Bunny CDN
+name: Deploy to Bunny Storage
 on:
   push:
     branches: [main]
@@ -7,35 +7,39 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build
 
-      - name: Build site
-        run: npm run build
+      - name: Install rclone
+        run: sudo apt-get install -y rclone
 
-      - name: Upload to Bunny Storage
-        uses: sebastianpopp/bunnycdn-storage-deploy@v1.2.0
-        with:
-          source: ./dist
-          storageZoneName: ${{ secrets.BUNNY_FTP_USERNAME }}
-          apiKey: ${{ secrets.BUNNY_FTP_PASSWORD }}
-          storageHost: ${{ secrets.BUNNY_FTP_SERVER }}
-          accessKey: ${{ secrets.BUNNY_FTP_PASSWORD }}
-          purgePullZone: false
-          destination: /
+      - name: Configure rclone for Bunny
+        run: |
+          mkdir -p ~/.config/rclone
+          echo "[bunny]
+          type = ftp
+          host = storage.bunnycdn.com
+          user = ${{ secrets.BUNNY_STORAGE_USERNAME }}
+          pass = ${{ secrets.BUNNY_STORAGE_PASSWORD }}" > ~/.config/rclone/rclone.conf
 
-      - name: Purge Bunny CDN Cache (optional)
-        if: success() && env.BUNNY_PULLZONE_ID != ''
+      - name: Upload dist folder to Bunny Storage
+        run: |
+          rclone sync ./dist bunny:${{ secrets.BUNNY_STORAGE_ZONE_NAME }} --progress --exclude ".*"
+
+      - name: Purge Bunny CDN cache (optional)
         run: |
           curl -X POST "https://api.bunny.net/pullzone/${{ secrets.BUNNY_PULLZONE_ID }}/purgeCache" \
-            -H "AccessKey: ${{ secrets.BUNNY_API_KEY }}" \
-            -H "Accept: application/json"
+          -H "AccessKey: ${{ secrets.BUNNY_API_KEY }}" \
+          -H "Accept: application/json"
