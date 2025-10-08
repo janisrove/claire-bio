@@ -97,7 +97,7 @@ export default component$(() => {
         <div class="grid grid-cols-2 gap-3 md:grid-cols-3">
           <div class="relative overflow-hidden rounded-xl">
             <img
-              src={`/images/riped-stockings.jpg`}
+              src={`/assets/riped-stockings.jpg`}
               alt="exclusive preview"
               loading="lazy"
               class="h-full w-full object-cover opacity-90 transition duration-700 hover:scale-[1.03] hover:opacity-100"
