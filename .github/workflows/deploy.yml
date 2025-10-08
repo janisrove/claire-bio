@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "🎞 Uploading media..."
           if [ -d "./dist/assets" ]; then
-            rclone sync ./dist/assets bunny-media:/assets --progress --exclude ".*"
+            rclone sync ./dist/assets bunny-media:assets --progress --exclude ".*"
           fi
 
       # 🧹 Purge CDN cache
