@@ -31,8 +31,8 @@ jobs:
           echo "[bunny-site]
           type = ftp
           host = storage.bunnycdn.com
-          user = ${BUNNY_SITE_USERNAME}
-          pass = PASS_PLAIN:${BUNNY_SITE_PASSWORD}
+          user = ${{ secrets.BUNNY_SITE_USERNAME }}
+          pass = PASS_PLAIN:$(echo ${{ secrets.BUNNY_SITE_PASSWORD }} | base64)
 
           [bunny-media]
           type = ftp
