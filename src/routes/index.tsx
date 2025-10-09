@@ -1,27 +1,24 @@
-import { component$, Slot, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import { Link, type DocumentHead } from "@builder.io/qwik-city";
 import CoatImage from "~/media/claire-red-coat-layers.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
 import StockingImage from "~/media/claire-stockings-elegance.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
 import LingerieImage from "~/media/lace-lingerie.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
 import Footer from "~/components/layout/footer";
 import { SwiperGallery } from "~/components/SwiperGallery";
-
+/*
 const ImageCard = component$(() => {
   return (
     <div class="group relative flex h-auto w-full flex-col items-stretch overflow-hidden even:flex-row-reverse md:h-[70vh] md:flex-row md:gap-12">
-      {/* IMAGE */}
       <div class="relative h-[80vh] overflow-hidden sm:rounded-md md:h-full md:w-1/2 md:rounded-xl">
         <Slot name="image" />
-        {/* Overlay only for mobile */}
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 md:hidden" />
       </div>
-      {/* TEXT / CONTENT */}
       <div class="absolute inset-0 flex flex-col items-center justify-end px-6 pb-24 text-center md:relative md:w-1/2 md:justify-center md:px-12 md:pb-0 md:text-left">
         <Slot name="content" />
       </div>
     </div>
   );
-});
+});*/
 
 const CtaBtn = component$(() => {
   return (
@@ -43,9 +40,99 @@ export default component$(() => {
     }
   });
 
+  useVisibleTask$(async () => {
+    const { gsap } = await import("gsap");
+    const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      /*ScrollTrigger.create({
+        trigger: "#essence-section",
+        end: "bottom 50%+=100px",
+        onToggle: (self) => console.log("toggled, isActive:", self.isActive),
+        onUpdate: (self) => {
+          console.log(
+            "progress:",
+            self.progress.toFixed(3),
+            "direction:",
+            self.direction,
+            "velocity",
+            self.getVelocity(),
+          );
+
+          const p = self.progress;
+          const el = document.querySelector("#parallax1");
+          const opacity = gsap.utils.clamp(0, 1, p * 1.5);
+          const translateY = gsap.utils.interpolate(100, -50, p);
+
+          gsap.set(el, {
+            opacity,
+            y: translateY,
+          });
+        },
+      });*/
+
+      gsap.set("#parallax1", {
+        opacity: 0,
+        y: "80vh", // start below the viewport
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#essence-section",
+          start: "top bottom",
+          end: "bottom 50%+100px",
+          scrub: true,
+          markers: false, // (optional) for debugging
+        },
+      });
+
+      tl.to(
+        "#parallax1",
+        {
+          y: "20vh",
+          opacity: 0.5,
+          ease: "power1.out",
+        },
+        0.3,
+      ).to("#parallax1", {
+        opacity: 0,
+      });
+      /*.to(
+          "#parallax1",
+          {
+            scale: 1.05,
+            ease: "none",
+            duration: 0.5,
+          },
+          0.3,
+        )
+        .to(
+          "#parallax1",
+          { opacity: 0, ease: "power1.inOut", duration: 0.4 },
+          0.7,
+        );*/
+    });
+
+    return () => {
+      ctx.revert();
+    };
+  });
+
   return (
     <>
-      <main class="overflow-x-hidden">
+      <div
+        id="parallax1"
+        class="box fixed inset-0 z-0 bg-cover bg-bottom"
+        style="
+    background-image:
+      linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%),
+      url('/assets/lace-lingerie.jpg');
+  "
+      >
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/60"></div>
+      </div>
+      <main class="relative z-10 overflow-x-hidden">
         {/* Hero */}
         <section class="scroll-fade relative flex h-screen flex-col items-center justify-center px-6 pb-24 text-center md:items-start md:justify-end md:px-16 md:pb-36">
           {/* Background video */}
@@ -86,6 +173,7 @@ export default component$(() => {
         </section>
 
         {/* Essence */}
+        {/** 
         <section class="relative container flex h-[90vh] flex-col items-center justify-center overflow-hidden text-center">
           <div class="relative max-w-2xl space-y-10 leading-relaxed">
             <p class="scroll-fade text-2xl font-light italic">
@@ -95,6 +183,24 @@ export default component$(() => {
               Layers whisper more than words.
             </p>
             <p class="scroll-fade text-2xl font-light italic">
+              Nylon, silk, and shadow — her chosen language.
+            </p>
+          </div>
+        </section>
+*/}
+
+        <section
+          id="essence-section"
+          class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden"
+        >
+          <div class="relative z-10 space-y-8 px-6 text-center">
+            <p class="text-claire-champagne text-3xl leading-relaxed font-light tracking-wide md:text-5xl">
+              Soft power hides in quiet gestures.
+            </p>
+            <p class="text-claire-pearl/90 text-2xl font-light italic md:text-4xl">
+              Layers whisper more than words.
+            </p>
+            <p class="text-claire-rose/80 text-xl italic md:text-3xl">
               Nylon, silk, and shadow — her chosen language.
             </p>
           </div>
@@ -134,13 +240,13 @@ export default component$(() => {
           <StockingImage
             loading="lazy"
             decoding="async"
-            class="h-[60vh] object-cover md:h-screen md:w-1/2"
+            class="h-[60vh] cursor-grab object-cover md:h-screen md:w-1/2"
             alt="artistic nylon aesthetic"
             q:slot="image"
           />
         </section>
 
-        <section class="flex min-h-screen flex-col items-center justify-center gap-16 px-0 py-24 md:px-16 lg:px-32">
+        <section class="flex min-h-screen flex-col items-center justify-center gap-16 px-0 pt-24 md:px-16 lg:px-32">
           <div class="max-w-3xl space-y-4 text-center md:text-left">
             <h2 class="text-claire-champagne font-serif text-3xl tracking-wide md:text-5xl">
               The Ritual of Elegance
@@ -160,7 +266,7 @@ export default component$(() => {
               <CoatImage
                 loading="lazy"
                 decoding="async"
-                class="h-[60vh] w-full object-cover brightness-80 transition-transform duration-[4000ms] group-hover:scale-105"
+                class="h-[60vh] w-full cursor-pointer object-cover brightness-80 transition-transform duration-[4000ms] group-hover:scale-105"
                 alt="artistic nylon aesthetic"
                 q:slot="image"
               />
@@ -169,31 +275,6 @@ export default component$(() => {
               </figcaption>
             </figure>
           </div>
-          {/**
-          <div class="flex h-[30vh] flex-row gap-8 overflow-auto">
-            <StockingImage
-              loading="lazy"
-              decoding="async"
-              class="ml-32 object-cover transition-transform duration-[4000ms] group-hover:scale-105"
-              alt="artistic nylon aesthetic"
-              q:slot="image"
-            />
-            <StockingImage
-              loading="lazy"
-              decoding="async"
-              class="object-cover transition-transform duration-[4000ms] group-hover:scale-105"
-              alt="artistic nylon aesthetic"
-              q:slot="image"
-            />
-            <StockingImage
-              loading="lazy"
-              decoding="async"
-              class="object-cover transition-transform duration-[4000ms] group-hover:scale-105"
-              alt="artistic nylon aesthetic"
-              q:slot="image"
-            />
-          </div> */}
-
           <SwiperGallery>
             <figure
               q:slot="slide"
@@ -211,7 +292,7 @@ export default component$(() => {
               q:slot="slide"
               class="swiper-slide relative overflow-hidden"
             >
-              <StockingImage
+              <LingerieImage
                 class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
                 alt="Claire in red coat"
               />
@@ -247,6 +328,7 @@ export default component$(() => {
         </section>
 
         {/* Gallery */}
+        {/* 
         <section class="scroll-fade container flex flex-col flex-wrap space-y-16 md:flex-row">
           <ImageCard>
             <CoatImage
@@ -297,7 +379,7 @@ export default component$(() => {
             </p>
           </ImageCard>
         </section>
-
+*/}
         {/* Invitation */}
         <section class="relative container flex h-screen flex-col items-center justify-center text-center">
           <div class="absolute inset-0"></div>
