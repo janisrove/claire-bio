@@ -4,6 +4,7 @@ import CoatImage from "~/media/claire-red-coat-layers.jpg?format=webp&lossless=t
 import StockingImage from "~/media/claire-stockings-elegance.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
 import LingerieImage from "~/media/lace-lingerie.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
 import Footer from "~/components/layout/footer";
+import { SwiperGallery } from "~/components/SwiperGallery";
 
 const ImageCard = component$(() => {
   return (
@@ -78,9 +79,9 @@ export default component$(() => {
           </div>
 
           {/* Scroll hint */}
-          <div class="text-claire-pearl/70 absolute bottom-14 left-1/2 -translate-x-1/2 animate-bounce text-lg">
+          <div class="text-claire-pearl/70 absolute bottom-14 left-1/2 -translate-x-1/2 animate-bounce text-sm">
             scroll
-            <span class="icon-[material-symbols-light--arrow-downward-rounded] mb-1 size-6 align-middle"></span>
+            <span class="icon-[material-symbols-light--arrow-downward-rounded] mb-1 size-4 align-middle"></span>
           </div>
         </section>
 
@@ -139,12 +140,12 @@ export default component$(() => {
           />
         </section>
 
-        <section class="flex min-h-screen flex-col items-center justify-center gap-16 px-6 py-24 md:px-16 lg:px-32">
+        <section class="flex min-h-screen flex-col items-center justify-center gap-16 px-0 py-24 md:px-16 lg:px-32">
           <div class="max-w-3xl space-y-4 text-center md:text-left">
             <h2 class="text-claire-champagne font-serif text-3xl tracking-wide md:text-5xl">
               The Ritual of Elegance
             </h2>
-            <p class="text-claire-rose text-lg font-semibold md:text-xl">
+            <p class="text-claire-pearl text-lg font-semibold md:text-xl">
               Elegance isn’t worn — it’s practiced.
             </p>
             <p class="text-claire-pearl/80 text-base leading-relaxed italic md:text-lg">
@@ -155,11 +156,11 @@ export default component$(() => {
           </div>
 
           <div class="grid w-full max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">
-            <figure class="group relative overflow-hidden rounded-md">
+            <figure class="group relative overflow-hidden">
               <CoatImage
                 loading="lazy"
                 decoding="async"
-                class="h-[60vh] w-full object-cover transition-transform duration-[4000ms] group-hover:scale-105"
+                class="h-[60vh] w-full object-cover brightness-80 transition-transform duration-[4000ms] group-hover:scale-105"
                 alt="artistic nylon aesthetic"
                 q:slot="image"
               />
@@ -192,6 +193,57 @@ export default component$(() => {
               q:slot="image"
             />
           </div> */}
+
+          <SwiperGallery>
+            <figure
+              q:slot="slide"
+              class="swiper-slide relative overflow-hidden"
+            >
+              <StockingImage
+                class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
+                alt="Claire in red coat"
+              />
+              <figcaption class="text-claire-pearl/80 absolute bottom-4 left-4 text-sm italic">
+                Morning ritual — quiet devotion.
+              </figcaption>
+            </figure>
+            <figure
+              q:slot="slide"
+              class="swiper-slide relative overflow-hidden"
+            >
+              <StockingImage
+                class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
+                alt="Claire in red coat"
+              />
+              <figcaption class="text-claire-pearl/80 absolute bottom-4 left-4 text-sm italic">
+                Morning ritual — quiet devotion.
+              </figcaption>
+            </figure>
+            <figure
+              q:slot="slide"
+              class="swiper-slide relative overflow-hidden"
+            >
+              <StockingImage
+                class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
+                alt="Claire in red coat"
+              />
+              <figcaption class="text-claire-pearl/80 absolute bottom-4 left-4 text-sm italic">
+                Morning ritual — quiet devotion.
+              </figcaption>
+            </figure>
+            <figure
+              q:slot="slide"
+              class="swiper-slide relative overflow-hidden"
+            >
+              <StockingImage
+                class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
+                alt="Claire in red coat"
+              />
+              <figcaption class="text-claire-pearl/80 absolute bottom-4 left-4 text-sm italic">
+                Morning ritual — quiet devotion.
+              </figcaption>
+            </figure>
+          </SwiperGallery>
         </section>
 
         {/* Gallery */}
