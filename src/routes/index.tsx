@@ -43,135 +43,232 @@ export default component$(() => {
   });
 
   return (
-    <main class="overflow-x-hidden">
-      {/* Hero */}
-      <section class="scroll-fade relative flex h-screen flex-col items-center justify-center px-6 pb-24 text-center md:items-start md:justify-end md:px-16 md:pb-32">
-        {/* Background video */}
-        <video
-          ref={videoRef}
-          autoplay
-          loop
-          muted
-          playsInline
-          class="absolute inset-0 h-full w-full object-cover object-[center_70%] brightness-95 md:brightness-100"
-        >
-          <source src="/assets/hero-loop-opt.mp4" type="video/mp4" />
-        </video>
+    <>
+      <main class="overflow-x-hidden">
+        {/* Hero */}
+        <section class="scroll-fade relative flex h-screen flex-col items-center justify-center px-6 pb-24 text-center md:items-start md:justify-end md:px-16 md:pb-36">
+          {/* Background video */}
+          <video
+            ref={videoRef}
+            autoplay
+            loop
+            muted
+            playsInline
+            class="absolute inset-0 h-full w-full object-cover object-[center_70%] brightness-95 md:brightness-100"
+          >
+            <source src="/assets/hero-loop-opt.mp4" type="video/mp4" />
+          </video>
 
-        {/* Subtle gradient overlay */}
-        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/80"></div>
+          {/* Subtle gradient overlay */}
+          <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/80"></div>
 
-        {/* Text content */}
-        <div class="relative max-w-3xl self-center">
-          <h1 class="text-claire-rose mb-2 font-serif text-5xl tracking-wide md:mb-4 md:text-7xl">
-            Claire Nylon Lady
-          </h1>
-          <h2 class="text-claire-pearl mb-6 text-2xl italic md:text-4xl">
-            Nylon Muse
-          </h2>
-          <p class="text-claire-pearl/90 mb-12 text-lg italic md:text-xl">
-            An intimate study in elegance
-          </p>
+          {/* Text content */}
+          <div class="relative max-w-3xl self-center">
+            <h1 class="text-claire-rose mb-2 font-serif text-5xl tracking-wide md:mb-4 md:text-7xl">
+              Claire Nylon Lady
+            </h1>
+            <h2 class="text-claire-pearl mb-6 text-2xl italic md:text-4xl">
+              Nylon Muse
+            </h2>
+            <p class="text-claire-pearl/90 mb-12 text-lg italic md:text-xl">
+              An intimate study in elegance
+            </p>
 
-          <CtaBtn />
-        </div>
+            <CtaBtn />
+          </div>
 
-        {/* Scroll hint */}
-        <div class="text-claire-pearl/70 absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-xl">
-          Scroll
-          <span class="icon-[material-symbols-light--arrow-downward-rounded] mb-1 size-8 align-middle"></span>
-        </div>
-      </section>
+          {/* Scroll hint */}
+          <div class="text-claire-pearl/70 absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce text-xl">
+            scroll
+            <span class="icon-[material-symbols-light--arrow-downward-rounded] mb-1 size-6 align-middle"></span>
+          </div>
+        </section>
 
-      {/* Essence */}
-      <section class="relative container flex h-[90vh] flex-col items-center justify-center overflow-hidden text-center">
-        <div class="relative max-w-2xl space-y-10 leading-relaxed">
-          <p class="scroll-fade text-2xl font-light italic">
-            Soft power hides in quiet gestures.
-          </p>
-          <p class="scroll-fade text-2xl font-light italic">
-            Layers whisper more than words.
-          </p>
-          <p class="scroll-fade text-2xl font-light italic">
-            Nylon, silk, and shadow — her chosen language.
-          </p>
-        </div>
-      </section>
+        {/* Essence */}
+        <section class="relative container flex h-[90vh] flex-col items-center justify-center overflow-hidden text-center">
+          <div class="relative max-w-2xl space-y-10 leading-relaxed">
+            <p class="scroll-fade text-2xl font-light italic">
+              Soft power hides in quiet gestures.
+            </p>
+            <p class="scroll-fade text-2xl font-light italic">
+              Layers whisper more than words.
+            </p>
+            <p class="scroll-fade text-2xl font-light italic">
+              Nylon, silk, and shadow — her chosen language.
+            </p>
+          </div>
+        </section>
 
-      {/* Gallery */}
-      <section class="scroll-fade container flex flex-col flex-wrap space-y-16 md:flex-row">
-        <ImageCard>
+        <section class="container flex min-h-screen flex-col items-center justify-center md:flex-row md:justify-between">
+          <div class="px-8 py-16 text-center md:w-1/2 md:text-left">
+            <h2 class="text-claire-champagne mb-4 font-serif text-3xl">
+              The Ritual of Elegance
+            </h2>
+            <p class="text-claire-pearl/80 mx-auto max-w-md leading-relaxed italic md:mx-0">
+              Mornings begin with ritual — fabric, fragrance, and the quiet
+              promise of silk. Each clasp, each seam, chosen with intent.
+              Elegance is never rushed.
+            </p>
+          </div>
           <CoatImage
             loading="lazy"
             decoding="async"
-            class="h-full object-cover opacity-80 transition-transform duration-[4000ms] group-hover:scale-110"
+            class="h-[60vh] object-cover md:h-screen md:w-1/2"
             alt="artistic nylon aesthetic"
             q:slot="image"
           />
-          <p class="mb-2 text-xl italic" q:slot="content">
-            Textures are memories.
-          </p>
-          <p class="max-w-2xl text-sm italic" q:slot="content">
-            Each layer chosen deliberately — not for attention, but for
-            sensation.
-          </p>
-        </ImageCard>
-        <ImageCard>
+        </section>
+
+        <section class="container flex min-h-screen flex-col items-center justify-center md:flex-row md:justify-between">
+          <div class="px-8 py-16 text-center md:w-1/2 md:text-left">
+            <h2 class="text-claire-champagne mb-4 font-serif text-3xl">
+              The Ritual of Elegance
+            </h2>
+            <p class="text-claire-pearl/80 mx-auto max-w-md leading-relaxed italic md:mx-0">
+              Mornings begin with ritual — fabric, fragrance, and the quiet
+              promise of silk. Each clasp, each seam, chosen with intent.
+              Elegance is never rushed.
+            </p>
+          </div>
           <StockingImage
             loading="lazy"
             decoding="async"
-            class="h-full object-cover opacity-80 transition-transform duration-[4000ms] group-hover:scale-110"
+            class="h-[60vh] object-cover md:h-screen md:w-1/2"
             alt="artistic nylon aesthetic"
             q:slot="image"
           />
-          <p class="mb-2 text-xl italic" q:slot="content">
-            Textures are memories.
-          </p>
-          <p class="max-w-2xl text-sm italic" q:slot="content">
-            Each layer chosen deliberately — not for attention, but for
-            sensation.
-          </p>
-        </ImageCard>
-        <ImageCard>
-          <LingerieImage
-            loading="lazy"
-            decoding="async"
-            class="h-full object-cover opacity-80 transition-transform duration-[4000ms] group-hover:scale-110"
-            alt="artistic nylon aesthetic"
-            q:slot="image"
-          />
-          <p class="mb-2 text-xl italic" q:slot="content">
-            Textures are memories.
-          </p>
-          <p class="max-w-2xl text-sm italic" q:slot="content">
-            Each layer chosen deliberately — not for attention, but for
-            sensation.
-          </p>
-        </ImageCard>
-      </section>
+        </section>
 
-      {/* Invitation */}
-      <section class="relative container flex h-screen flex-col items-center justify-center text-center">
-        <div class="absolute inset-0"></div>
-
-        <div class="relative max-w-xl space-y-6 px-6">
-          <h2 class="scroll-fade text-3xl font-semibold md:text-4xl">
-            Step beyond the veil
-          </h2>
-          <p class="scroll-fade text-lg italic">
-            Private sets, behind-the-scenes stories, and layers reserved for
-            true admirers.
-          </p>
-
-          <div class="scroll-fade flex flex-col gap-4 pt-10">
-            <CtaBtn />
+        <section class="flex min-h-screen flex-col items-center justify-center gap-16 px-6 py-24 md:px-16 lg:px-32">
+          <div class="max-w-3xl space-y-4 text-center md:text-left">
+            <h2 class="text-claire-champagne font-serif text-3xl tracking-wide md:text-5xl">
+              The Ritual of Elegance
+            </h2>
+            <p class="text-claire-rose text-lg font-semibold md:text-xl">
+              Elegance isn’t worn — it’s practiced.
+            </p>
+            <p class="text-claire-pearl/80 text-base leading-relaxed italic md:text-lg">
+              Mornings begin with ritual — fabric, fragrance, and the quiet
+              promise of silk. Each clasp, each seam, chosen with intent.
+              Elegance is never rushed.
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <Footer />
-    </main>
+          <div class="grid w-full max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">
+            <figure class="group relative overflow-hidden rounded-md">
+              <CoatImage
+                loading="lazy"
+                decoding="async"
+                class="h-[60vh] w-full object-cover transition-transform duration-[4000ms] group-hover:scale-105"
+                alt="artistic nylon aesthetic"
+                q:slot="image"
+              />
+              <figcaption class="text-claire-pearl/80 absolute bottom-6 left-6 text-sm italic">
+                A silent discipline in every clasp.
+              </figcaption>
+            </figure>
+          </div>
+          {/**
+          <div class="flex h-[30vh] flex-row gap-8 overflow-auto">
+            <StockingImage
+              loading="lazy"
+              decoding="async"
+              class="ml-32 object-cover transition-transform duration-[4000ms] group-hover:scale-105"
+              alt="artistic nylon aesthetic"
+              q:slot="image"
+            />
+            <StockingImage
+              loading="lazy"
+              decoding="async"
+              class="object-cover transition-transform duration-[4000ms] group-hover:scale-105"
+              alt="artistic nylon aesthetic"
+              q:slot="image"
+            />
+            <StockingImage
+              loading="lazy"
+              decoding="async"
+              class="object-cover transition-transform duration-[4000ms] group-hover:scale-105"
+              alt="artistic nylon aesthetic"
+              q:slot="image"
+            />
+          </div> */}
+        </section>
+
+        {/* Gallery */}
+        <section class="scroll-fade container flex flex-col flex-wrap space-y-16 md:flex-row">
+          <ImageCard>
+            <CoatImage
+              loading="lazy"
+              decoding="async"
+              class="h-full object-cover opacity-80 transition-transform duration-[4000ms] group-hover:scale-110"
+              alt="artistic nylon aesthetic"
+              q:slot="image"
+            />
+            <p class="mb-2 text-xl italic" q:slot="content">
+              Textures are memories.
+            </p>
+            <p class="max-w-2xl text-sm italic" q:slot="content">
+              Each layer chosen deliberately — not for attention, but for
+              sensation.
+            </p>
+          </ImageCard>
+          <ImageCard>
+            <StockingImage
+              loading="lazy"
+              decoding="async"
+              class="h-full object-cover opacity-80 transition-transform duration-[4000ms] group-hover:scale-110"
+              alt="artistic nylon aesthetic"
+              q:slot="image"
+            />
+            <p class="mb-2 text-xl italic" q:slot="content">
+              Textures are memories.
+            </p>
+            <p class="max-w-2xl text-sm italic" q:slot="content">
+              Each layer chosen deliberately — not for attention, but for
+              sensation.
+            </p>
+          </ImageCard>
+          <ImageCard>
+            <LingerieImage
+              loading="lazy"
+              decoding="async"
+              class="h-full object-cover opacity-80 transition-transform duration-[4000ms] group-hover:scale-110"
+              alt="artistic nylon aesthetic"
+              q:slot="image"
+            />
+            <p class="mb-2 text-xl italic" q:slot="content">
+              Textures are memories.
+            </p>
+            <p class="max-w-2xl text-sm italic" q:slot="content">
+              Each layer chosen deliberately — not for attention, but for
+              sensation.
+            </p>
+          </ImageCard>
+        </section>
+
+        {/* Invitation */}
+        <section class="relative container flex h-screen flex-col items-center justify-center text-center">
+          <div class="absolute inset-0"></div>
+
+          <div class="relative max-w-xl space-y-6 px-6">
+            <h2 class="scroll-fade text-3xl font-semibold md:text-4xl">
+              Step beyond the veil
+            </h2>
+            <p class="scroll-fade text-lg italic">
+              Private sets, behind-the-scenes stories, and layers reserved for
+              true admirers.
+            </p>
+
+            <div class="scroll-fade flex flex-col gap-4 pt-10">
+              <CtaBtn />
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <Footer />
+      </main>
+    </>
   );
 });
 
