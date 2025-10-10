@@ -80,24 +80,28 @@ export default component$(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: "#essence-section",
-          start: "top bottom",
-          end: "bottom 50%+100px",
+          endTrigger: "#essence-next",
+          start: "top 80%",
+          end: "top 20%",
           scrub: true,
           markers: false, // (optional) for debugging
         },
       });
 
-      tl.to(
-        "#parallax1",
-        {
-          y: "20vh",
-          opacity: 0.5,
-          ease: "power1.out",
-        },
-        0.3,
-      ).to("#parallax1", {
-        opacity: 0,
-      });
+      tl.to("#parallax1", {
+        y: "20vh",
+        opacity: 0.65,
+        ease: "power1.inOut",
+        delay: 0.2,
+        duration: 4,
+      })
+        .to("#parallax1", {
+          opacity: 0.65,
+        })
+        .to("#parallax1", {
+          opacity: 0,
+          delay: 5,
+        });
       /*.to(
           "#parallax1",
           {
@@ -166,7 +170,7 @@ export default component$(() => {
           </div>
 
           {/* Scroll hint */}
-          <div class="text-claire-pearl/70 absolute bottom-14 left-1/2 -translate-x-1/2 animate-bounce text-sm">
+          <div class="text-claire-pearl/70 absolute bottom-18 left-1/2 -translate-x-1/2 animate-bounce text-sm">
             scroll
             <span class="icon-[material-symbols-light--arrow-downward-rounded] mb-1 size-4 align-middle"></span>
           </div>
@@ -206,7 +210,10 @@ export default component$(() => {
           </div>
         </section>
 
-        <section class="container flex min-h-screen flex-col items-center justify-center md:flex-row md:justify-between">
+        <section
+          id="essence-next"
+          class="container flex min-h-screen flex-col items-center justify-center md:flex-row md:justify-between"
+        >
           <div class="px-8 py-16 text-center md:w-1/2 md:text-left">
             <h2 class="text-claire-champagne mb-4 font-serif text-3xl">
               The Ritual of Elegance
