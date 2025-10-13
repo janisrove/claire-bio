@@ -10,65 +10,54 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 🧩 Checkout source
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 🧩 Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # 🧱 Build site
       - name: Install dependencies and build
         run: |
           npm ci
           npm run build
 
-      # 🪄 Install Bunny CDN CLI
-      - name: Install bunnycdn-cli
-        run: npm install -g bunnycdn-cli
-
-      # 🚀 Upload site files (excluding media)
-      - name: Deploy site files to Bunny Site storage
+      # 🚀 Upload site (HTML/CSS/JS)
+      - name: Upload site files to Bunny via HTTPS API
         env:
           BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
           BUNNY_SITE_ZONE: ${{ secrets.BUNNY_SITE_ZONE }}
         run: |
-          echo "🚀 Uploading site (excluding media)..."
-          bunnycdn-cli upload ./dist \
-            --storageZone "$BUNNY_SITE_ZONE" \
-            --apiKey "$BUNNY_API_KEY" \
-            --region de \
-            --delete true \
-            --exclude "/assets/**/*.jpg" \
-            --exclude "/assets/**/*.jpeg" \
-            --exclude "/assets/**/*.png" \
-            --exclude "/assets/**/*.webp" \
-            --exclude "/assets/**/*.avif" \
-            --exclude "/assets/**/*.mp4" \
-            --exclude "/assets/**/*.webm" \
-            --exclude ".*"
+          echo "🚀 Uploading site files..."
+          find ./dist -type f \
+            ! -name "*.jpg" ! -name "*.jpeg" ! -name "*.png" \
+            ! -name "*.webp" ! -name "*.avif" ! -name "*.mp4" \
+            ! -name "*.webm" ! -path "*/.*" | while read file; do
+              relpath="${file#./dist/}"
+              echo "→ Uploading: $relpath"
+              curl -sf -X PUT -H "AccessKey: $BUNNY_API_KEY" \
+                   -T "$file" \
+                   "https://storage.bunnycdn.com/$BUNNY_SITE_ZONE/$relpath"
+            done
 
-      # 🎞 Upload media files
-      - name: Deploy media files to Bunny Media storage
+      # 🎞 Upload media (images/videos)
+      - name: Upload media files to Bunny via HTTPS API
         env:
           BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
           BUNNY_MEDIA_ZONE: ${{ secrets.BUNNY_MEDIA_ZONE }}
         run: |
-          echo "🎞 Uploading media..."
+          echo "🎞 Uploading media files..."
           if [ -d "./dist/assets" ]; then
-            bunnycdn-cli upload ./dist/assets \
-              --storageZone "$BUNNY_MEDIA_ZONE" \
-              --apiKey "$BUNNY_API_KEY" \
-              --region de \
-              --delete true \
-              --exclude "*.css" \
-              --exclude "*.js" \
-              --exclude "*.json" \
-              --exclude "*.map" \
-              --exclude ".*"
+            find ./dist/assets -type f \
+              ! -name "*.css" ! -name "*.js" ! -name "*.json" \
+              ! -name "*.map" ! -path "*/.*" | while read file; do
+                relpath="${file#./dist/assets/}"
+                echo "→ Uploading: $relpath"
+                curl -sf -X PUT -H "AccessKey: $BUNNY_API_KEY" \
+                     -T "$file" \
+                     "https://storage.bunnycdn.com/$BUNNY_MEDIA_ZONE/assets/$relpath"
+              done
           fi
 
       # 🧹 Purge CDN cache
@@ -78,6 +67,6 @@ jobs:
           BUNNY_PULLZONE_ID: ${{ secrets.BUNNY_PULLZONE_ID }}
         run: |
           echo "🧹 Purging CDN cache..."
-          curl -X POST "https://api.bunny.net/pullzone/${BUNNY_PULLZONE_ID}/purgeCache" \
+          curl -s -X POST "https://api.bunny.net/pullzone/${BUNNY_PULLZONE_ID}/purgeCache" \
             -H "AccessKey: ${BUNNY_API_KEY}" \
             -H "Accept: application/json"
