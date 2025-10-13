@@ -1,4 +1,9 @@
-import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import {
+  component$,
+  useId,
+  useSignal,
+  useVisibleTask$,
+} from "@builder.io/qwik";
 import { Link, type DocumentHead } from "@builder.io/qwik-city";
 import CoatImage from "~/media/claire-red-coat-layers.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
 import StockingImage from "~/media/claire-stockings-elegance.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
@@ -33,6 +38,9 @@ const CtaBtn = component$(() => {
 
 export default component$(() => {
   const videoRef = useSignal<HTMLVideoElement>();
+  const parallax1Id = useId();
+  const parallax1StartId = useId();
+  const parallax1EndId = useId();
 
   useVisibleTask$(() => {
     if (videoRef.value) {
@@ -72,53 +80,38 @@ export default component$(() => {
         },
       });*/
 
-      gsap.set("#parallax1", {
+      const parallax1 = `#${parallax1Id}`;
+      gsap.set(parallax1, {
         opacity: 0,
         y: "100vh", // start below the viewport
       });
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: "#essence-section",
-          //endTrigger: "#essence-next",
+          trigger: `#${parallax1StartId}`,
+          endTrigger: `#${parallax1EndId}`,
           start: "top 80%",
-          end: "bottom+=400vh 20%",
+          end: "bottom 20%",
           scrub: true,
+          invalidateOnRefresh: true,
           markers: false, // (optional) for debugging
         },
       });
 
-      tl.to("#parallax1", {
+      tl.to(parallax1, {
         y: "20vh",
         opacity: 0.5,
-        //ease: "power1.inOut",
-        //delay: 0.2,
-        duration: 5,
+        duration: 20,
       })
-        .to("#parallax1", {
+        .to(parallax1, {
           opacity: 0.5,
           duration: 2,
         })
-        .to("#parallax1", {
+        .to(parallax1, {
           opacity: 0,
-          //delay: 1,
           duration: 5,
-          //ease: "power1.out",
+          delay: 5,
         });
-      /*.to(
-          "#parallax1",
-          {
-            scale: 1.05,
-            ease: "none",
-            duration: 0.5,
-          },
-          0.3,
-        )
-        .to(
-          "#parallax1",
-          { opacity: 0, ease: "power1.inOut", duration: 0.4 },
-          0.7,
-        );*/
     });
 
     return () => {
@@ -129,7 +122,7 @@ export default component$(() => {
   return (
     <>
       <div
-        id="parallax1"
+        id={parallax1Id}
         class="box fixed inset-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom"
       ></div>
       <main class="relative z-10 overflow-x-hidden">
@@ -190,7 +183,7 @@ export default component$(() => {
 */}
 
         <section
-          id="essence-section"
+          id={parallax1StartId}
           class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden"
         >
           <div class="relative z-10 space-y-8 px-6 text-center">
@@ -210,7 +203,10 @@ export default component$(() => {
           id="essence-next"
           class="container flex min-h-screen flex-col items-center justify-center md:flex-row md:justify-between"
         >
-          <div class="px-8 py-16 text-center md:w-1/2 md:text-left">
+          <div
+            class="px-8 py-16 text-center md:w-1/2 md:text-left"
+            id={parallax1EndId}
+          >
             <h2 class="text-claire-champagne mb-4 font-serif text-3xl">
               The Ritual of Elegance
             </h2>
