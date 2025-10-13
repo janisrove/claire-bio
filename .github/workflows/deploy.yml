@@ -23,51 +23,29 @@ jobs:
           npm ci
           npm run build
 
-      # 🚀 Upload site (HTML/CSS/JS)
-      - name: Upload site files to Bunny via HTTPS API
+      # 🚀 Upload site
+      - name: Upload all site files to Bunny via HTTPS API
         env:
           BUNNY_API_KEY: ${{ secrets.BUNNY_SITE_API_KEY }}
           BUNNY_SITE_ZONE: ${{ secrets.BUNNY_SITE_ZONE_NAME }}
         run: |
-          echo "🚀 Uploading site files..."
-          find ./dist -type f \
-            ! -name "*.jpg" ! -name "*.jpeg" ! -name "*.png" \
-            ! -name "*.webp" ! -name "*.avif" ! -name "*.mp4" \
-            ! -name "*.webm" ! -path "*/.*" | while read file; do
-              relpath="${file#./dist/}"
-              echo "→ Uploading: $relpath"
-              response=$(curl -s -o /dev/null -w "%{http_code}" \
-                -X PUT \
-                -H "AccessKey: ${BUNNY_API_KEY}" \
-                -T "$file" \
-                "https://storage.bunnycdn.com/${BUNNY_SITE_ZONE}/${relpath}")
+          echo "🚀 Uploading entire site to Bunny Storage..."
+          find ./dist -type f ! -path "*/.*" | while read file; do
+            relpath="${file#./dist/}"
+            echo "→ Uploading: $relpath"
+            response=$(curl -s -o /dev/null -w "%{http_code}" \
+              -X PUT \
+              -H "AccessKey: ${BUNNY_API_KEY}" \
+              -T "$file" \
+              "https://storage.bunnycdn.com/${BUNNY_SITE_ZONE}/${relpath}")
 
-              if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
-                echo "✅ Uploaded successfully: $relpath"
-              else
-                echo "❌ Failed to upload $relpath (HTTP $response)"
-                exit 1
-              fi
-            done
-
-      # 🎞 Upload media (images/videos)
-      - name: Upload media files to Bunny via HTTPS API
-        env:
-          BUNNY_API_KEY: ${{ secrets.BUNNY_MEDIA_API_KEY }}
-          BUNNY_MEDIA_ZONE: ${{ secrets.BUNNY_MEDIA_ZONE_NAME }}
-        run: |
-          echo "🎞 Uploading media files..."
-          if [ -d "./dist/assets" ]; then
-            find ./dist/assets -type f \
-              ! -name "*.css" ! -name "*.js" ! -name "*.json" \
-              ! -name "*.map" ! -path "*/.*" | while read file; do
-                relpath="${file#./dist/assets/}"
-                echo "→ Uploading: $relpath"
-                curl -sf -X PUT -H "AccessKey: $BUNNY_API_KEY" \
-                     -T "$file" \
-                     "https://storage.bunnycdn.com/$BUNNY_MEDIA_ZONE/assets/$relpath"
-              done
-          fi
+            if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
+              echo "✅ Uploaded successfully: $relpath"
+            else
+              echo "❌ Failed to upload $relpath (HTTP $response)"
+              exit 1
+            fi
+          done
 
       # 🧹 Purge CDN cache
       - name: Purge Bunny CDN cache
