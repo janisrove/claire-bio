@@ -26,8 +26,8 @@ jobs:
       # 🚀 Upload site (HTML/CSS/JS)
       - name: Upload site files to Bunny via HTTPS API
         env:
-          BUNNY_SITE_PASSWORD: ${{ secrets.BUNNY_SITE_PASSWORD }}
-          BUNNY_SITE_ZONE_NAME: ${{ secrets.BUNNY_SITE_ZONE_NAME }}
+          BUNNY_API_KEY: ${{ secrets.BUNNY_SITE_API_KEY }}
+          BUNNY_SITE_ZONE: ${{ secrets.BUNNY_SITE_ZONE_NAME }}
         run: |
           echo "🚀 Uploading site files..."
           find ./dist -type f \
@@ -38,9 +38,9 @@ jobs:
               echo "→ Uploading: $relpath"
               response=$(curl -s -o /dev/null -w "%{http_code}" \
                 -X PUT \
-                -H "AccessKey: ${BUNNY_SITE_PASSWORD}" \
+                -H "AccessKey: ${BUNNY_API_KEY}" \
                 -T "$file" \
-                "https://storage.bunnycdn.com/${BUNNY_SITE_ZONE_NAME}/${relpath}")
+                "https://storage.bunnycdn.com/${BUNNY_SITE_ZONE}/${relpath}")
 
               if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
                 echo "✅ Uploaded successfully: $relpath"
