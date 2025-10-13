@@ -84,7 +84,7 @@ export default component$(() => {
       const parallax1 = `#${parallax1Id}`;
       gsap.set(parallax1, {
         opacity: 0,
-        y: "100vh", // start below the viewport
+        y: "100%", // start below the viewport
       });
 
       const tl = gsap.timeline({
@@ -100,7 +100,7 @@ export default component$(() => {
       });
 
       tl.to(parallax1, {
-        y: "20vh",
+        y: "20%",
         opacity: 0.5,
         duration: 20,
       })
