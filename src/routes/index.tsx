@@ -74,15 +74,15 @@ export default component$(() => {
 
       gsap.set("#parallax1", {
         opacity: 0,
-        y: "80vh", // start below the viewport
+        y: "100vh", // start below the viewport
       });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: "#essence-section",
-          endTrigger: "#essence-next",
+          //endTrigger: "#essence-next",
           start: "top 80%",
-          end: "top 20%",
+          end: "bottom+=400vh 20%",
           scrub: true,
           markers: false, // (optional) for debugging
         },
@@ -90,17 +90,20 @@ export default component$(() => {
 
       tl.to("#parallax1", {
         y: "20vh",
-        opacity: 0.65,
-        ease: "power1.inOut",
-        delay: 0.2,
-        duration: 4,
+        opacity: 0.5,
+        //ease: "power1.inOut",
+        //delay: 0.2,
+        duration: 5,
       })
         .to("#parallax1", {
-          opacity: 0.65,
+          opacity: 0.5,
+          duration: 2,
         })
         .to("#parallax1", {
           opacity: 0,
-          delay: 5,
+          //delay: 1,
+          duration: 5,
+          //ease: "power1.out",
         });
       /*.to(
           "#parallax1",
@@ -127,15 +130,8 @@ export default component$(() => {
     <>
       <div
         id="parallax1"
-        class="box fixed inset-0 z-0 bg-cover bg-bottom"
-        style="
-    background-image:
-      linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%),
-      url('/assets/lace-lingerie.jpg');
-  "
-      >
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/60"></div>
-      </div>
+        class="box fixed inset-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom"
+      ></div>
       <main class="relative z-10 overflow-x-hidden">
         {/* Hero */}
         <section class="scroll-fade relative flex h-screen flex-col items-center justify-center px-6 pb-24 text-center md:items-start md:justify-end md:px-16 md:pb-36">
