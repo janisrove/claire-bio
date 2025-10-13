@@ -26,8 +26,8 @@ jobs:
       # 🚀 Upload site (HTML/CSS/JS)
       - name: Upload site files to Bunny via HTTPS API
         env:
-          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
-          BUNNY_SITE_ZONE: ${{ secrets.BUNNY_SITE_ZONE }}
+          BUNNY_API_KEY: ${{ secrets.BUNNY_SITE_PASSWORD }}
+          BUNNY_SITE_ZONE: ${{ secrets.BUNNY_SITE_ZONE_NAME }}
         run: |
           echo "🚀 Uploading site files..."
           find ./dist -type f \
