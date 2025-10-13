@@ -38,6 +38,7 @@ const CtaBtn = component$(() => {
 
 export default component$(() => {
   const videoRef = useSignal<HTMLVideoElement>();
+
   const parallax1Id = useId();
   const parallax1StartId = useId();
   const parallax1EndId = useId();
@@ -123,7 +124,7 @@ export default component$(() => {
     <>
       <div
         id={parallax1Id}
-        class="box fixed inset-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom"
+        class="box fixed inset-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom will-change-transform"
       ></div>
       <main class="relative z-10 overflow-x-hidden">
         {/* Hero */}
