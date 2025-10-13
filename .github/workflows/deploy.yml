@@ -53,8 +53,8 @@ jobs:
       # 🎞 Upload media (images/videos)
       - name: Upload media files to Bunny via HTTPS API
         env:
-          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
-          BUNNY_MEDIA_ZONE: ${{ secrets.BUNNY_MEDIA_ZONE }}
+          BUNNY_API_KEY: ${{ secrets.BUNNY_MEDIA_API_KEY }}
+          BUNNY_MEDIA_ZONE: ${{ secrets.BUNNY_MEDIA_ZONE_NAME }}
         run: |
           echo "🎞 Uploading media files..."
           if [ -d "./dist/assets" ]; then
