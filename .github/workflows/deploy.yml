@@ -1,4 +1,5 @@
 name: Deploy to Bunny CDN
+
 on:
   push:
     branches: [main]
@@ -9,43 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 🧩 Checkout source
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 🧩 Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      # 🧱 Build site
       - name: Install dependencies and build
         run: |
           npm ci
           npm run build
 
-      - name: Install rclone
-        run: sudo apt-get install -y rclone
+      # 🪄 Install Bunny CDN CLI
+      - name: Install bunnycdn-cli
+        run: npm install -g bunnycdn-cli
 
-      - name: Configure rclone for Bunny
-        run: |
-          mkdir -p ~/.config/rclone
-          echo "[bunny-site]
-          type = ftp
-          host = storage.bunnycdn.com
-          user = ${{ secrets.BUNNY_SITE_USERNAME }}
-          pass = ${{ secrets.BUNNY_SITE_PASSWORD }}
-
-          [bunny-media]
-          type = ftp
-          host = storage.bunnycdn.com
-          user = ${{ secrets.BUNNY_MEDIA_USERNAME }}
-          pass = ${{ secrets.BUNNY_MEDIA_PASSWORD }}" > ~/.config/rclone/rclone.conf
-
-      # 🚀 Deploy site (exclude images/videos)
-      - name: Deploy site files to HDD storage
+      # 🚀 Upload site files (excluding media)
+      - name: Deploy site files to Bunny Site storage
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+          BUNNY_SITE_ZONE: ${{ secrets.BUNNY_SITE_ZONE }}
         run: |
           echo "🚀 Uploading site (excluding media)..."
-          rclone sync ./dist bunny-site: \
-            --progress \
+          bunnycdn-cli upload ./dist \
+            --storageZone "$BUNNY_SITE_ZONE" \
+            --apiKey "$BUNNY_API_KEY" \
+            --region de \
+            --delete true \
             --exclude "/assets/**/*.jpg" \
             --exclude "/assets/**/*.jpeg" \
             --exclude "/assets/**/*.png" \
@@ -55,24 +51,33 @@ jobs:
             --exclude "/assets/**/*.webm" \
             --exclude ".*"
 
-      # 🎞 Deploy images/videos separately
-      - name: Deploy media files to SSD storage
+      # 🎞 Upload media files
+      - name: Deploy media files to Bunny Media storage
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+          BUNNY_MEDIA_ZONE: ${{ secrets.BUNNY_MEDIA_ZONE }}
         run: |
           echo "🎞 Uploading media..."
           if [ -d "./dist/assets" ]; then
-            rclone sync ./dist/assets bunny-media:assets 
-              --progress
+            bunnycdn-cli upload ./dist/assets \
+              --storageZone "$BUNNY_MEDIA_ZONE" \
+              --apiKey "$BUNNY_API_KEY" \
+              --region de \
+              --delete true \
               --exclude "*.css" \
               --exclude "*.js" \
               --exclude "*.json" \
-              --exclude "*.map"
+              --exclude "*.map" \
               --exclude ".*"
           fi
 
       # 🧹 Purge CDN cache
       - name: Purge Bunny CDN cache
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+          BUNNY_PULLZONE_ID: ${{ secrets.BUNNY_PULLZONE_ID }}
         run: |
           echo "🧹 Purging CDN cache..."
-          curl -X POST "https://api.bunny.net/pullzone/${{ secrets.BUNNY_PULLZONE_ID }}/purgeCache" \
-            -H "AccessKey: ${{ secrets.BUNNY_API_KEY }}" \
+          curl -X POST "https://api.bunny.net/pullzone/${BUNNY_PULLZONE_ID}/purgeCache" \
+            -H "AccessKey: ${BUNNY_API_KEY}" \
             -H "Accept: application/json"
