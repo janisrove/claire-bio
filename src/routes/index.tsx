@@ -25,9 +25,10 @@ const ImageCard = component$(() => {
   );
 });*/
 
-const CtaBtn = component$(() => {
+const CtaBtn = component$(({ id }: { id?: string }) => {
   return (
     <Link
+      id={id}
       href="/exclusive"
       class="border-claire-champagne text-claire-rose hover:bg-claire-bordeaux/90 hover:text-claire-rose inline-block rounded-full border px-8 py-3 tracking-wide transition-all duration-700 ease-out"
     >
@@ -58,6 +59,36 @@ export default component$(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
+      gsap.from("#cta-btn", {
+        y: 20,
+        opacity: 0,
+        duration: 1.5,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: "#cta-btn",
+          start: "top 85%",
+          onEnter: () => {
+            /*gsap.to("#cta-btn", {
+              //y: -2,
+              //scale: 1.03,
+              boxShadow: "0 0 15px rgba(255, 225, 230, 0.25)",
+              duration: 2,
+              repeat: -1,
+              yoyo: true,
+              ease: "power1.inOut",
+            });
+*/
+            gsap.to("#cta-btn", {
+              backgroundPosition: "200% 0",
+              duration: 3,
+              repeat: -1,
+              yoyo: true,
+              ease: "linear",
+            });
+          },
+        },
+      });
+
       // Parallax Layer 1 Animation
       const parallax1 = `#${parallax1Id}`;
       gsap.set(parallax1, {
@@ -134,11 +165,11 @@ export default component$(() => {
       {/** Parallax Backgrounds */}
       <div
         id={parallax1Id}
-        class="box fixed inset-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom will-change-transform"
+        class="box fixed inset-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
       ></div>
       <div
         id={parallax2Id}
-        class="box fixed inset-0 z-0 bg-[url(/assets/claire-nylon-layers-from-top.jpg)] mask-t-from-50% bg-cover bg-bottom will-change-transform"
+        class="box fixed inset-0 z-0 bg-[url(/assets/claire-nylon-layers-from-top.jpg)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
       ></div>
       <main class="relative z-10 overflow-x-hidden">
         {/* Hero */}
@@ -395,7 +426,7 @@ export default component$(() => {
             </p>
 
             <div class="scroll-fade flex flex-col gap-4 pt-10">
-              <CtaBtn />
+              <CtaBtn id="cta-btn" />
             </div>
           </div>
         </section>
