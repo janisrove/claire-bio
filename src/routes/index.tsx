@@ -89,11 +89,13 @@ export default component$(() => {
         },
       });
 
+      const vh = window.innerHeight;
+
       // Parallax Layer 1 Animation
       const parallax1 = `#${parallax1Id}`;
       gsap.set(parallax1, {
         opacity: 0,
-        y: "100%", // start below the viewport
+        y: vh, // start below the viewport
       });
 
       const tl = gsap.timeline({
@@ -109,7 +111,7 @@ export default component$(() => {
       });
 
       tl.to(parallax1, {
-        y: "20%",
+        y: vh * 0.2,
         opacity: 0.5,
         duration: 20,
       })
