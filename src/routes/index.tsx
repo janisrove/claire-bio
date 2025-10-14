@@ -165,11 +165,11 @@ export default component$(() => {
       {/** Parallax Backgrounds */}
       <div
         id={parallax1Id}
-        class="box fixed inset-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
+        class="box fixed inset-0 right-0 left-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
       ></div>
       <div
         id={parallax2Id}
-        class="box fixed inset-0 z-0 bg-[url(/assets/claire-nylon-layers-from-top.jpg)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
+        class="box fixed inset-0 right-0 left-0 z-0 bg-[url(/assets/claire-nylon-layers-from-top.jpg)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
       ></div>
       <main class="relative z-10 overflow-x-hidden">
         {/* Hero */}

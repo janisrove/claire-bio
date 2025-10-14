@@ -20,7 +20,7 @@ export const SwiperGallery = component$(
   ({
     autoplayDelay = 0,
     slidesPerViewDesktop = 3,
-    slidesPerViewMobile = 1.2,
+    slidesPerViewMobile = 2.2,
   }: SwiperGalleryProps) => {
     useVisibleTask$(async () => {
       const { Swiper } = await import("swiper");
@@ -55,13 +55,13 @@ export const SwiperGallery = component$(
 
     return (
       <>
-        <div class="flex w-full flex-col gap-6">
+        <div class="flex w-full flex-col gap-8">
           <div class="claire-swiper swiper w-full max-w-5xl overflow-hidden">
             <div class="swiper-wrapper">
               <Slot name="slide" />
             </div>
           </div>
-          <div class="swiper-pagination bg-claire-champagne/30 !relative mr-4 !w-fit self-end rounded-full px-2 py-0.5 [--swiper-pagination-color:var(--color-claire-champagne)]"></div>
+          <div class="swiper-pagination bg-claire-champagne/30 !relative my-0 mr-8 !w-fit self-end rounded-full px-2 py-0 [--swiper-pagination-color:var(--color-claire-champagne)]"></div>
         </div>
       </>
     );
