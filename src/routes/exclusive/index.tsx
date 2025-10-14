@@ -3,12 +3,28 @@ import { Link, type DocumentHead } from "@builder.io/qwik-city";
 import Footer from "~/components/layout/footer";
 
 export const head: DocumentHead = {
-  title: "Exclusive — Claire Nylon Lady",
+  title: "Exclusive Access | Claire Nylon Lady",
   meta: [
     {
       name: "description",
-      content: "Private sets and behind-the-scenes stories.",
+      content:
+        "Step inside Claire’s private world — exclusive photo sets, nylon fantasies, and behind-the-scenes intimacy available on OnlyFans and Fansly.",
     },
+    {
+      property: "og:title",
+      content: "Exclusive Access | Claire Nylon Lady",
+    },
+    {
+      property: "og:description",
+      content:
+        "Enter a more intimate side of the Nylon Muse. Private content, exclusive looks, and soft allure — available through Claire’s official links.",
+    },
+    {
+      property: "og:image",
+      content:
+        "https://claire-site.b-cdn.net/assets/claire-stockings-elegance.jpg",
+    },
+    { name: "twitter:card", content: "summary_large_image" },
     { name: "robots", content: "noindex,nofollow" }, // keep this page out of search
   ],
 };

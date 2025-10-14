@@ -43,6 +43,9 @@ export default component$(() => {
   const parallax1StartId = useId();
   const parallax1EndId = useId();
 
+  const parallax2Id = useId();
+  const parallax2StartId = useId();
+
   useVisibleTask$(() => {
     if (videoRef.value) {
       videoRef.value.playbackRate = 0.75; // slower, more cinematic
@@ -55,32 +58,7 @@ export default component$(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      /*ScrollTrigger.create({
-        trigger: "#essence-section",
-        end: "bottom 50%+=100px",
-        onToggle: (self) => console.log("toggled, isActive:", self.isActive),
-        onUpdate: (self) => {
-          console.log(
-            "progress:",
-            self.progress.toFixed(3),
-            "direction:",
-            self.direction,
-            "velocity",
-            self.getVelocity(),
-          );
-
-          const p = self.progress;
-          const el = document.querySelector("#parallax1");
-          const opacity = gsap.utils.clamp(0, 1, p * 1.5);
-          const translateY = gsap.utils.interpolate(100, -50, p);
-
-          gsap.set(el, {
-            opacity,
-            y: translateY,
-          });
-        },
-      });*/
-
+      // Parallax Layer 1 Animation
       const parallax1 = `#${parallax1Id}`;
       gsap.set(parallax1, {
         opacity: 0,
@@ -91,7 +69,7 @@ export default component$(() => {
         scrollTrigger: {
           trigger: `#${parallax1StartId}`,
           endTrigger: `#${parallax1EndId}`,
-          start: "top 80%",
+          start: "top 90%",
           end: "bottom 20%",
           scrub: true,
           invalidateOnRefresh: true,
@@ -113,6 +91,37 @@ export default component$(() => {
           duration: 5,
           delay: 5,
         });
+
+      // Parallax Layer 2 Animation
+      const parallax2 = `#${parallax2Id}`;
+      gsap.set(parallax2, {
+        opacity: 0,
+        scale: 1,
+        y: "100%", // start below the viewport
+      });
+
+      const tl2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: `#${parallax2StartId}`,
+          start: "top bottom",
+          end: "bottom 20%",
+          scrub: true,
+          invalidateOnRefresh: true,
+          markers: false, // (optional) for debugging
+        },
+      });
+
+      tl2
+        .to(parallax2, {
+          y: "0%",
+          opacity: 0.23,
+          scale: 1.05,
+          duration: 10,
+        })
+        .to(parallax2, {
+          opacity: 0.23,
+          duration: 2,
+        });
     });
 
     return () => {
@@ -122,9 +131,14 @@ export default component$(() => {
 
   return (
     <>
+      {/** Parallax Backgrounds */}
       <div
         id={parallax1Id}
         class="box fixed inset-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom will-change-transform"
+      ></div>
+      <div
+        id={parallax2Id}
+        class="box fixed inset-0 z-0 bg-[url(/assets/claire-nylon-layers-from-top.jpg)] mask-t-from-50% bg-cover bg-bottom will-change-transform"
       ></div>
       <main class="relative z-10 overflow-x-hidden">
         {/* Hero */}
@@ -167,22 +181,6 @@ export default component$(() => {
         </section>
 
         {/* Essence */}
-        {/** 
-        <section class="relative container flex h-[90vh] flex-col items-center justify-center overflow-hidden text-center">
-          <div class="relative max-w-2xl space-y-10 leading-relaxed">
-            <p class="scroll-fade text-2xl font-light italic">
-              Soft power hides in quiet gestures.
-            </p>
-            <p class="scroll-fade text-2xl font-light italic">
-              Layers whisper more than words.
-            </p>
-            <p class="scroll-fade text-2xl font-light italic">
-              Nylon, silk, and shadow — her chosen language.
-            </p>
-          </div>
-        </section>
-*/}
-
         <section
           id={parallax1StartId}
           class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden"
@@ -381,7 +379,10 @@ export default component$(() => {
         </section>
 */}
         {/* Invitation */}
-        <section class="relative container flex h-screen flex-col items-center justify-center text-center">
+        <section
+          class="relative container flex h-screen flex-col items-center justify-center text-center"
+          id={parallax2StartId}
+        >
           <div class="absolute inset-0"></div>
 
           <div class="relative max-w-xl space-y-6 px-6">
@@ -407,11 +408,27 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Claire Nylon Lady | The Nylon Muse of Elegance and Mystery",
   meta: [
     {
       name: "description",
-      content: "Qwik site description",
+      content:
+        "Discover Claire — the Nylon Muse. A faceless symbol of elegance, confidence, and layered sensuality. A cinematic journey through texture, femininity, and quiet allure.",
     },
+    {
+      property: "og:title",
+      content: "Claire Nylon Lady | The Nylon Muse of Elegance and Mystery",
+    },
+    {
+      property: "og:description",
+      content:
+        "An intimate, artistic celebration of nylon elegance — soft layers, graceful moods, and timeless femininity.",
+    },
+    {
+      property: "og:image",
+      content:
+        "https://claire-site.b-cdn.net/assets/claire-nylon-layers-from-top.jpg",
+    },
+    { name: "twitter:card", content: "summary_large_image" },
   ],
 };
