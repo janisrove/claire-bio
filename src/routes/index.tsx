@@ -190,7 +190,7 @@ export default component$(() => {
             playsInline
             class="absolute inset-0 h-full w-full object-cover object-[center_70%] brightness-95 md:brightness-100"
           >
-            <source src="/assets/hero-loop-opt.mp4" type="video/mp4" />
+            <source src="/media/hero-loop-opt.mp4" type="video/mp4" />
           </video>
 
           {/* Subtle gradient overlay */}

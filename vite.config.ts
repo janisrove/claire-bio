@@ -59,7 +59,6 @@ export default defineConfig(({ command, mode }): UserConfig => {
         '^/media/*': {
           target: 'https://claire-media.b-cdn.net',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/media/, '/assets/'),
         }
       }
     },
