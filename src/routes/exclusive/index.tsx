@@ -1,8 +1,8 @@
 import { component$ } from "@builder.io/qwik";
 import { Link, type DocumentHead } from "@builder.io/qwik-city";
-import { Image, useImageProvider } from "qwik-image";
+import { Image } from "qwik-image";
 import Footer from "~/components/layout/footer";
-import { imageTransformer$ } from "~/lib/imageTransformer";
+import { useBunnyImageProvider } from "~/hooks/useBunnyImageProvider";
 
 export const head: DocumentHead = {
   title: "Exclusive Access | Claire Nylon Lady",
@@ -32,9 +32,7 @@ export const head: DocumentHead = {
 };
 
 export default component$(() => {
-  useImageProvider({
-    imageTransformer$,
-  });
+  useBunnyImageProvider();
 
   return (
     <main class="bg-claire-bg text-claire-pearl selection:bg-claire-bordeaux/40 selection:text-claire-rose min-h-screen">

@@ -7,8 +7,8 @@ import {
 import { Link, type DocumentHead } from "@builder.io/qwik-city";
 import Footer from "~/components/layout/footer";
 import { SwiperGallery } from "~/components/SwiperGallery";
-import { Image, useImageProvider } from "qwik-image";
-import { imageTransformer$ } from "~/lib/imageTransformer";
+import { Image } from "qwik-image";
+import { useBunnyImageProvider } from "~/hooks/useBunnyImageProvider";
 
 /*
 const ImageCard = component$(() => {
@@ -56,7 +56,9 @@ export default component$(() => {
   useVisibleTask$(async () => {
     const { gsap } = await import("gsap");
     const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+    const { SplitText } = await import("gsap/SplitText");
     gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(SplitText);
 
     const ctx = gsap.context(() => {
       gsap.from("#cta-btn", {
@@ -137,7 +139,7 @@ export default component$(() => {
         scrollTrigger: {
           trigger: `#${parallax2StartId}`,
           start: "top bottom",
-          end: "bottom 20%",
+          end: "bottom top",
           scrub: true,
           invalidateOnRefresh: true,
           markers: false, // (optional) for debugging
@@ -157,15 +159,31 @@ export default component$(() => {
         });
     });
 
+    gsap.utils.toArray(".text-anim").forEach((obj) => {
+      const el = obj as HTMLElement;
+      const split = new SplitText(el, { type: "chars" });
+
+      gsap.from(split.chars, {
+        x: -40,
+        opacity: 0,
+        duration: 0.7,
+        ease: "power2.out",
+        stagger: 0.01,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          once: true, // <- plays only once per element
+        },
+        onComplete: () => split.revert(), // restore original DOM for SEO/accessibility
+      });
+    });
+
     return () => {
       ctx.revert();
     };
   });
 
-  // // TODO move to utils?
-  useImageProvider({
-    imageTransformer$,
-  });
+  useBunnyImageProvider();
 
   return (
     <>
@@ -212,7 +230,7 @@ export default component$(() => {
           </div>
 
           {/* Scroll hint */}
-          <div class="text-claire-pearl/70 absolute bottom-18 left-1/2 -translate-x-1/2 animate-bounce text-sm">
+          <div class="text-claire-pearl/70 scroll-hint absolute bottom-18 left-1/2 -translate-x-1/2 animate-bounce text-sm">
             scroll
             <span class="icon-[material-symbols-light--arrow-downward-rounded] mb-1 size-4 align-middle"></span>
           </div>
@@ -224,7 +242,7 @@ export default component$(() => {
           class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden"
         >
           <div class="relative z-10 space-y-8 px-6 text-center">
-            <p class="text-claire-champagne text-3xl leading-relaxed font-light tracking-wide md:text-5xl">
+            <p class="text-claire-champagne text-anim text-3xl leading-relaxed font-light tracking-wide md:text-5xl">
               Soft power hides in quiet gestures.
             </p>
             <p class="text-claire-pearl/90 text-2xl font-light italic md:text-4xl">
@@ -244,7 +262,7 @@ export default component$(() => {
             class="px-8 py-16 text-center md:w-1/2 md:text-left"
             id={parallax1EndId}
           >
-            <h2 class="text-claire-champagne mb-4 font-serif text-3xl">
+            <h2 class="text-claire-champagne text-anim mb-4 font-serif text-3xl">
               The Ritual of Elegance
             </h2>
             <p class="text-claire-pearl/80 mx-auto max-w-md leading-relaxed italic md:mx-0">
@@ -286,7 +304,7 @@ export default component$(() => {
 
         <section class="flex min-h-screen flex-col items-center justify-center gap-16 px-0 pt-24 md:px-16 lg:px-32">
           <div class="max-w-3xl space-y-4 text-center md:text-left">
-            <h2 class="text-claire-champagne font-serif text-3xl tracking-wide md:text-5xl">
+            <h2 class="text-claire-champagne text-anim font-serif text-3xl tracking-wide md:text-5xl">
               The Ritual of Elegance
             </h2>
             <p class="text-claire-pearl text-lg font-semibold md:text-xl">

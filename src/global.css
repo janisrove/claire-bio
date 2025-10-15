@@ -64,3 +64,21 @@ p {
   );
   background-size: 200% auto;
 }
+
+@supports (animation-timeline: scroll()) {
+  .scroll-hint {
+    animation: hint-fade both linear;
+    animation-timeline: scroll(root block);
+    animation-range: 0 200px; /* top → 200px */
+  }
+  @keyframes hint-fade {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+}
