@@ -5,11 +5,11 @@ import {
   useVisibleTask$,
 } from "@builder.io/qwik";
 import { Link, type DocumentHead } from "@builder.io/qwik-city";
-import CoatImage from "~/media/claire-red-coat-layers.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
-import StockingImage from "~/media/claire-stockings-elegance.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
-import LingerieImage from "~/media/lace-lingerie.jpg?format=webp&lossless=true&aspect=9:16&rotate=90&jsx";
 import Footer from "~/components/layout/footer";
 import { SwiperGallery } from "~/components/SwiperGallery";
+import { Image, useImageProvider } from "qwik-image";
+import { imageTransformer$ } from "~/lib/imageTransformer";
+
 /*
 const ImageCard = component$(() => {
   return (
@@ -162,16 +162,21 @@ export default component$(() => {
     };
   });
 
+  // // TODO move to utils?
+  useImageProvider({
+    imageTransformer$,
+  });
+
   return (
     <>
       {/** Parallax Backgrounds */}
       <div
         id={parallax1Id}
-        class="box fixed inset-0 right-0 left-0 z-0 bg-[url(/assets/lace-lingerie.jpg)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
+        class="box fixed inset-0 right-0 left-0 z-0 bg-[url(/media/lace-lingerie.jpg?width=800)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
       ></div>
       <div
         id={parallax2Id}
-        class="box fixed inset-0 right-0 left-0 z-0 bg-[url(/assets/claire-nylon-layers-from-top.jpg)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
+        class="box fixed inset-0 right-0 left-0 z-0 bg-[url(/media/claire-nylon-layers-from-top.jpg?width=800)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
       ></div>
       <main class="relative z-10 overflow-x-hidden">
         {/* Hero */}
@@ -248,9 +253,10 @@ export default component$(() => {
               Elegance is never rushed.
             </p>
           </div>
-          <CoatImage
-            loading="lazy"
-            decoding="async"
+          <Image
+            layout="constrained"
+            placeholder="#ffffff0a"
+            src="/media/claire-red-coat-layers.jpg"
             class="h-[60vh] object-cover md:h-screen md:w-1/2"
             alt="artistic nylon aesthetic"
             q:slot="image"
@@ -268,10 +274,11 @@ export default component$(() => {
               Elegance is never rushed.
             </p>
           </div>
-          <StockingImage
-            loading="lazy"
-            decoding="async"
-            class="h-[60vh] cursor-grab object-cover md:h-screen md:w-1/2"
+          <Image
+            layout="constrained"
+            placeholder="#ffffff0a"
+            src="/media/claire-stockings-elegance.jpg"
+            class="h-[60vh] object-cover md:h-screen md:w-1/2"
             alt="artistic nylon aesthetic"
             q:slot="image"
           />
@@ -294,9 +301,10 @@ export default component$(() => {
 
           <div class="grid w-full max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">
             <figure class="group relative overflow-hidden">
-              <CoatImage
-                loading="lazy"
-                decoding="async"
+              <Image
+                layout="constrained"
+                placeholder="#ffffff0a"
+                src="/media/claire-red-coat-layers.jpg"
                 class="h-[60vh] w-full cursor-pointer object-cover brightness-80 transition-transform duration-[4000ms] group-hover:scale-105"
                 alt="artistic nylon aesthetic"
                 q:slot="image"
@@ -311,9 +319,13 @@ export default component$(() => {
               q:slot="slide"
               class="swiper-slide relative overflow-hidden"
             >
-              <StockingImage
+              <Image
+                layout="constrained"
+                placeholder="#ffffff0a"
+                src="/media/claire-stockings-elegance.jpg"
                 class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
-                alt="Claire in red coat"
+                alt="artistic nylon aesthetic"
+                q:slot="image"
               />
               <figcaption class="text-claire-pearl/80 absolute bottom-4 left-4 text-sm italic">
                 Morning ritual — quiet devotion.
@@ -323,9 +335,13 @@ export default component$(() => {
               q:slot="slide"
               class="swiper-slide relative overflow-hidden"
             >
-              <LingerieImage
+              <Image
+                layout="constrained"
+                placeholder="#ffffff0a"
+                src="/media/lace-lingerie.jpg"
                 class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
-                alt="Claire in red coat"
+                alt="artistic nylon aesthetic"
+                q:slot="image"
               />
               <figcaption class="text-claire-pearl/80 absolute bottom-4 left-4 text-sm italic">
                 Morning ritual — quiet devotion.
@@ -335,9 +351,14 @@ export default component$(() => {
               q:slot="slide"
               class="swiper-slide relative overflow-hidden"
             >
-              <StockingImage
+              <Image
+                layout="constrained"
+                placeholder="#ffffff0a"
+                width={400}
+                src="/media/riped-stockings.jpg"
                 class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
-                alt="Claire in red coat"
+                alt="artistic nylon aesthetic"
+                q:slot="image"
               />
               <figcaption class="text-claire-pearl/80 absolute bottom-4 left-4 text-sm italic">
                 Morning ritual — quiet devotion.
@@ -347,9 +368,14 @@ export default component$(() => {
               q:slot="slide"
               class="swiper-slide relative overflow-hidden"
             >
-              <StockingImage
+              <Image
+                layout="constrained"
+                placeholder="#ffffff0a"
+                width={400}
+                src="/media/20231120_142431.jpg"
                 class="h-72 w-full object-cover transition-transform duration-[3000ms] hover:scale-105"
-                alt="Claire in red coat"
+                alt="artistic nylon aesthetic"
+                q:slot="image"
               />
               <figcaption class="text-claire-pearl/80 absolute bottom-4 left-4 text-sm italic">
                 Morning ritual — quiet devotion.

@@ -55,6 +55,13 @@ export default defineConfig(({ command, mode }): UserConfig => {
         // Don't cache the server response in dev mode
         "Cache-Control": "public, max-age=0",
       },
+      proxy: {
+        '^/media/*': {
+          target: 'https://claire-media.b-cdn.net',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/media/, '/assets/'),
+        }
+      }
     },
     preview: {
       headers: {

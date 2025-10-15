@@ -1,6 +1,8 @@
 import { component$ } from "@builder.io/qwik";
 import { Link, type DocumentHead } from "@builder.io/qwik-city";
+import { Image, useImageProvider } from "qwik-image";
 import Footer from "~/components/layout/footer";
+import { imageTransformer$ } from "~/lib/imageTransformer";
 
 export const head: DocumentHead = {
   title: "Exclusive Access | Claire Nylon Lady",
@@ -30,6 +32,10 @@ export const head: DocumentHead = {
 };
 
 export default component$(() => {
+  useImageProvider({
+    imageTransformer$,
+  });
+
   return (
     <main class="bg-claire-bg text-claire-pearl selection:bg-claire-bordeaux/40 selection:text-claire-rose min-h-screen">
       {/* Top bar */}
@@ -112,11 +118,13 @@ export default component$(() => {
       <section class="mx-auto max-w-5xl px-6 pb-14 md:px-8">
         <div class="grid grid-cols-2 gap-3 md:grid-cols-3">
           <div class="relative overflow-hidden rounded-xl">
-            <img
-              src={`/assets/riped-stockings.jpg`}
-              alt="exclusive preview"
-              loading="lazy"
+            <Image
+              layout="constrained"
+              placeholder="#ffffff0a"
+              src="/media/riped-stockings.jpg"
               class="h-full w-full object-cover opacity-90 transition duration-700 hover:scale-[1.03] hover:opacity-100"
+              alt="artistic nylon aesthetic"
+              q:slot="image"
             />
             <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </div>
