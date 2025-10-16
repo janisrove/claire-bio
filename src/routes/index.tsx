@@ -230,9 +230,11 @@ export default component$(() => {
           </div>
 
           {/* Scroll hint */}
-          <div class="text-claire-pearl/70 scroll-hint absolute bottom-18 left-1/2 -translate-x-1/2 animate-bounce text-sm">
-            scroll
-            <span class="icon-[material-symbols-light--arrow-downward-rounded] mb-1 size-4 align-middle"></span>
+          <div class="scroll-hint-wrap absolute bottom-18 left-1/2 -translate-x-1/2 text-sm">
+            <div class="text-claire-pearl/70 animate-bounce">
+              scroll
+              <span class="icon-[material-symbols-light--arrow-downward-rounded] mb-1 size-4 align-middle"></span>
+            </div>
           </div>
         </section>
 

@@ -1,4 +1,4 @@
-import { component$, useVisibleTask$, Slot } from "@builder.io/qwik";
+import { component$, Slot, $, useOn } from "@builder.io/qwik";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -22,48 +22,51 @@ export const SwiperGallery = component$(
     slidesPerViewDesktop = 3,
     slidesPerViewMobile = 2.2,
   }: SwiperGalleryProps) => {
-    useVisibleTask$(async () => {
-      const { Swiper } = await import("swiper");
-      const { Navigation, Pagination, Autoplay } = await import(
-        "swiper/modules"
-      );
+    useOn(
+      "qvisible",
+      $(async () => {
+        const { Swiper } = await import("swiper");
+        const { Navigation, Pagination, Autoplay } = await import(
+          "swiper/modules"
+        );
 
-      const swiperEl = document.querySelector(".claire-swiper") as HTMLElement;
-      if (swiperEl) {
-        new Swiper(swiperEl, {
-          modules: [Navigation, Pagination, Autoplay],
-          slidesPerView: slidesPerViewMobile,
-          spaceBetween: 16,
-          pagination: { el: ".swiper-pagination", clickable: true },
-          navigation: true,
-          autoplay:
-            autoplayDelay > 0
-              ? { delay: autoplayDelay, disableOnInteraction: false }
-              : false,
-          breakpoints: {
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: slidesPerViewDesktop },
-          },
-          scrollbar: {
-            el: ".swiper-scrollbar",
-            hide: true,
-          },
-          cssMode: true,
-        });
-      }
-    });
+        const swiperEl = document.querySelector(
+          ".claire-swiper",
+        ) as HTMLElement;
+        if (swiperEl) {
+          new Swiper(swiperEl, {
+            modules: [Navigation, Pagination, Autoplay],
+            slidesPerView: slidesPerViewMobile,
+            spaceBetween: 16,
+            pagination: { el: ".swiper-pagination", clickable: true },
+            navigation: true,
+            autoplay:
+              autoplayDelay > 0
+                ? { delay: autoplayDelay, disableOnInteraction: false }
+                : false,
+            breakpoints: {
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: slidesPerViewDesktop },
+            },
+            scrollbar: {
+              el: ".swiper-scrollbar",
+              hide: true,
+            },
+            cssMode: true,
+          });
+        }
+      }),
+    );
 
     return (
-      <>
-        <div class="flex w-full flex-col gap-8">
-          <div class="claire-swiper swiper w-full max-w-5xl overflow-hidden">
-            <div class="swiper-wrapper">
-              <Slot name="slide" />
-            </div>
+      <div class="flex w-full flex-col gap-8">
+        <div class="claire-swiper swiper w-full max-w-5xl overflow-hidden">
+          <div class="swiper-wrapper [&>*]:mr-4 [&>*]:max-w-[calc(100vw/2.2-16px)]">
+            <Slot name="slide" />
           </div>
-          <div class="swiper-pagination bg-claire-champagne/30 !relative my-0 mr-8 !w-fit self-end rounded-full px-2 py-0 [--swiper-pagination-color:var(--color-claire-champagne)]"></div>
         </div>
-      </>
+        <div class="swiper-pagination bg-claire-champagne/30 !relative my-0 mr-8 !w-fit self-end rounded-full px-2 py-0 [--swiper-pagination-color:var(--color-claire-champagne)]"></div>
+      </div>
     );
   },
 );

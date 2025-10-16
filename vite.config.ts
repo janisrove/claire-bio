@@ -57,7 +57,8 @@ export default defineConfig(({ command, mode }): UserConfig => {
       },
       proxy: {
         '^/media/*': {
-          target: 'https://claire-media.b-cdn.net',
+          target: 'https://picsum.photos/300/500?grayscale',
+          rewrite: (path) => '',
           changeOrigin: true,
         }
       }

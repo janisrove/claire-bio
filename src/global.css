@@ -66,10 +66,11 @@ p {
 }
 
 @supports (animation-timeline: scroll()) {
-  .scroll-hint {
+  .scroll-hint-wrap {
+    /* fade & slight drift on scroll; bounce stays on the child */
     animation: hint-fade both linear;
     animation-timeline: scroll(root block);
-    animation-range: 0 200px; /* top → 200px */
+    animation-range: 0 200px;
   }
   @keyframes hint-fade {
     from {
