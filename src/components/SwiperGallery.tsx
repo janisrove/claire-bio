@@ -19,7 +19,7 @@ interface SwiperGalleryProps {
 export const SwiperGallery = component$(
   ({
     autoplayDelay = 0,
-    slidesPerViewDesktop = 3,
+    slidesPerViewDesktop = 4.2,
     slidesPerViewMobile = 2.2,
   }: SwiperGalleryProps) => {
     useOn(
@@ -45,7 +45,7 @@ export const SwiperGallery = component$(
                 ? { delay: autoplayDelay, disableOnInteraction: false }
                 : false,
             breakpoints: {
-              768: { slidesPerView: 2 },
+              768: { slidesPerView: 3.2 },
               1024: { slidesPerView: slidesPerViewDesktop },
             },
             scrollbar: {
@@ -65,7 +65,7 @@ export const SwiperGallery = component$(
             <Slot name="slide" />
           </div>
         </div>
-        <div class="swiper-pagination bg-claire-champagne/30 !relative my-0 mr-8 !w-fit self-end rounded-full px-2 py-0 [--swiper-pagination-color:var(--color-claire-champagne)]"></div>
+        <div class="swiper-pagination bg-claire-champagne/30 !relative my-0 mr-8 !w-fit self-end rounded-full px-2 py-0 [--swiper-pagination-color:var(--color-claire-champagne)] lg:self-center"></div>
       </div>
     );
   },

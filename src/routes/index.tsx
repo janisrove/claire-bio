@@ -27,13 +27,17 @@ const ImageCard = component$(() => {
 
 const CtaBtn = component$(({ id }: { id?: string }) => {
   return (
-    <Link
-      id={id}
-      href="/exclusive"
-      class="border-claire-champagne text-claire-rose hover:bg-claire-bordeaux/90 hover:text-claire-rose inline-block rounded-full border px-8 py-3 tracking-wide transition-all duration-700 ease-out"
-    >
-      Enter Private World →
-    </Link>
+    <>
+      <div class="example-3">
+        <Link
+          id={id}
+          href="/exclusive"
+          class="border-claire-champagne inner text-claire-rose hover:bg-claire-bordeaux/90 hover:text-claire-rose relative inline-block rounded-full border-0 px-8 py-3 tracking-wide transition-all duration-700 ease-out"
+        >
+          Enter Private World →
+        </Link>
+      </div>
+    </>
   );
 });
 
@@ -158,7 +162,7 @@ export default component$(() => {
           duration: 2,
         });
     });
-
+    /*
     gsap.utils.toArray(".text-anim").forEach((obj) => {
       const el = obj as HTMLElement;
       const split = new SplitText(el, { type: "chars" });
@@ -169,14 +173,15 @@ export default component$(() => {
         duration: 0.7,
         ease: "power2.out",
         stagger: 0.01,
+        repeat: -1,
         scrollTrigger: {
           trigger: el,
           start: "top 80%",
-          once: true, // <- plays only once per element
+          //once: true, // <- plays only once per element
         },
         onComplete: () => split.revert(), // restore original DOM for SEO/accessibility
       });
-    });
+    });*/
 
     return () => {
       ctx.revert();
@@ -188,6 +193,7 @@ export default component$(() => {
   return (
     <>
       {/** Parallax Backgrounds */}
+      {/** 
       <div
         id={parallax1Id}
         class="box fixed inset-0 right-0 left-0 z-0 bg-[url(/media/lace-lingerie.jpg?width=800)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
@@ -195,7 +201,8 @@ export default component$(() => {
       <div
         id={parallax2Id}
         class="box fixed inset-0 right-0 left-0 z-0 bg-[url(/media/claire-nylon-layers-from-top.jpg?width=800)] mask-t-from-50% bg-cover bg-bottom opacity-0 will-change-transform"
-      ></div>
+      ></div>*/}
+      <div class="box absolute inset-0 right-0 left-0 z-0 h-[300vh] bg-[url(/pattern.jpg)] bg-size-[250px] bg-scroll bg-center bg-repeat opacity-100 mix-blend-overlay"></div>
       <main class="relative z-10 overflow-x-hidden">
         {/* Hero */}
         <section class="scroll-fade relative flex h-screen flex-col items-center justify-center px-6 pb-24 text-center md:items-start md:justify-end md:px-16 md:pb-36">
@@ -298,7 +305,7 @@ export default component$(() => {
             layout="constrained"
             placeholder="#ffffff0a"
             src="/media/claire-stockings-elegance.jpg"
-            class="h-[60vh] object-cover md:h-screen md:w-1/2"
+            class="mx-4 h-[60vh] object-cover md:h-screen md:w-1/2"
             alt="artistic nylon aesthetic"
             q:slot="image"
           />
@@ -474,7 +481,7 @@ export default component$(() => {
             </p>
 
             <div class="scroll-fade flex flex-col gap-4 pt-10">
-              <CtaBtn id="cta-btn" />
+              <CtaBtn />
             </div>
           </div>
         </section>

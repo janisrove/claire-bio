@@ -56,9 +56,11 @@ export default defineConfig(({ command, mode }): UserConfig => {
         "Cache-Control": "public, max-age=0",
       },
       proxy: {
-        '^/media/*': {
-          target: 'https://picsum.photos/300/500?grayscale',
-          rewrite: (path) => '',
+        '^/media/*': {/*
+          'https://claire-media.b-cdn.net'
+          'https://picsum.photos/300/500?grayscale'*/
+          target: 'https://claire-media.b-cdn.net',
+          //rewrite: (path) => '',
           changeOrigin: true,
         }
       }
